@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasks - TON DEX</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        :root {
+            --primary-dark: #006D77;
+            --primary-medium: #1A6E7A;
+            --primary-light: #83C5BE;
+            --accent-color: #FFDDD2;
+            --text-light: #FFFFFF;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--primary-dark);
+            color: var(--text-light);
+            text-align: center;
+            overflow-x: hidden;
+        }
+        
+        .scroll-container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            padding-bottom: 80px;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+        
+        h2 {
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        .task {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 12px;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid rgba(131, 197, 190, 0.2);
+            transition: var(--transition);
+        }
+        
+        .task:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        .task i {
+            font-size: 20px;
+            margin-right: 10px;
+            color: var(--accent-color);
+        }
+        
+        .task span {
+            display: flex;
+            align-items: center;
+        }
+        
+        .task button {
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--accent-color) 100%);
+            color: var(--primary-dark);
+            border: none;
+            padding: 8px 15px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+        
+        .task button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .task button:disabled {
+            background: rgba(131, 197, 190, 0.3);
+            cursor: not-allowed;
+            color: var(--text-light);
+        }
+        
+        .bottom-menu {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 109, 119, 0.9);
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(131, 197, 190, 0.3);
+            z-index: 1000;
+            max-width: 400px;
+            margin: 0 auto;
+            box-sizing: border-box;
+        }
+        
+        .menu-btn {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            gap: 5px;
+            text-decoration: none;
+            position: relative;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: var(--transition);
+            opacity: 0.7;
+            flex: 1;
+        }
+        
+        .menu-btn:hover {
+            opacity: 1;
+            background: rgba(131, 197, 190, 0.1);
+        }
+        
+        .menu-btn i {
+            font-size: 20px;
+        }
+        
+        .menu-btn.active {
+            opacity: 1;
+            font-weight: 600;
+        }
+        
+        .menu-btn.active::after {
+            content: "";
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 3px;
+            background-color: var(--accent-color);
+            border-radius: 3px;
+        }
+        
+        .info-text {
+            margin-bottom: 20px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="scroll-container">
+        <h2>Telegram Tasks</h2>
+        <p class="info-text">Complete Telegram tasks and earn TON DEX Points!</p>
+        
+        <div class="task">
+            <span><i class="fab fa-telegram"></i> Join Official Group</span>
+            <button data-task="telegram_group" onclick="startTask(this)">Complete Task</button>
+        </div>
+        
+        <div class="task">
+            <span><i class="fab fa-telegram"></i> Subscribe to Channel</span>
+            <button data-task="telegram_channel" onclick="startTask(this)">Complete Task</button>
+        </div>
+        
+        <div class="task">
+            <span><i class="fab fa-telegram"></i> Share with Friends</span>
+            <button data-task="telegram_share" onclick="startTask(this)">Complete Task</button>
+        </div>
+        
+        <div class="task">
+            <span><i class="fab fa-telegram"></i> Participate in Contest</span>
+            <button data-task="telegram_contest" onclick="startTask(this)">Complete Task</button>
+        </div>
+    </div>
+
+    <div class="bottom-menu">
+        <a href="https://piswap362.github.io/Home/" class="menu-btn"><i class="fas fa-home"></i> Home</a>
+        <a href="https://piswap362.github.io/Tasks/" class="menu-btn active"><i class="fas fa-tasks"></i> Tasks</a>
+        <a href="https://piswap362.github.io/Friends/" class="menu-btn"><i class="fas fa-user-friends"></i> Friends</a>
+        <a href="https://piswap362.github.io/Wallet/" class="menu-btn"><i class="fas fa-wallet"></i> Wallet</a>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll("button[data-task]").forEach(button => {
+                let task = button.getAttribute("data-task");
+                if (localStorage.getItem(task) === "completed") {
+                    button.innerText = "Claimed!";
+                    button.disabled = true;
+                }
+            });
+        });
+
+        function startTask(button) {
+            let task = button.getAttribute("data-task");
+            button.disabled = true;
+            button.innerText = "Verifying...";
+            
+            setTimeout(() => {
+                button.innerText = "Claim Points";
+                button.disabled = false;
+                button.onclick = function () { claimPoints(this, task); };
+            }, 5000);
+        }
+
+        function claimPoints(button, task) {
+            let points = parseFloat(localStorage.getItem("points")) || 0;
+            points += 5;
+            localStorage.setItem("points", points);
+            localStorage.setItem(task, "completed");
+            button.innerText = "Claimed!";
+            button.disabled = true;
+            
+            // تأثير مرئي عند المطالبة بالنقاط
+            button.style.transform = "scale(1.1)";
+            setTimeout(() => {
+                button.style.transform = "scale(1)";
+            }, 200);
+        }
+    </script>
+</body>
+</html>
