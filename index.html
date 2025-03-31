@@ -24,6 +24,7 @@
             color: var(--text-light);
             text-align: center;
             overflow-x: hidden;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-medium) 100%);
         }
         
         .scroll-container {
@@ -38,6 +39,8 @@
         h2 {
             margin-bottom: 5px;
             font-weight: 600;
+            color: var(--accent-color);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
         
         .task {
@@ -50,10 +53,13 @@
             justify-content: space-between;
             border: 1px solid rgba(131, 197, 190, 0.2);
             transition: var(--transition);
+            backdrop-filter: blur(5px);
         }
         
         .task:hover {
             background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         
         .task i {
@@ -65,6 +71,7 @@
         .task span {
             display: flex;
             align-items: center;
+            flex: 1;
         }
         
         .task button {
@@ -78,6 +85,7 @@
             cursor: pointer;
             transition: var(--transition);
             box-shadow: var(--shadow);
+            min-width: 110px;
         }
         
         .task button:hover:not(:disabled) {
@@ -158,31 +166,121 @@
             color: rgba(255, 255, 255, 0.8);
             font-size: 14px;
         }
+        
+        /* Social Media Section */
+        .social-section {
+            margin: 30px 0;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(131, 197, 190, 0.2);
+            backdrop-filter: blur(5px);
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 15px;
+        }
+        
+        .social-link {
+            color: var(--text-light);
+            font-size: 24px;
+            transition: var(--transition);
+            padding: 10px;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .social-link:hover {
+            transform: translateY(-5px) scale(1.1);
+        }
+        
+        .telegram { background: #0088cc; }
+        .twitter { background: #1DA1F2; }
+        .discord { background: #5865F2; }
+        
+        /* Points Counter */
+        .points-counter {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.3);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            z-index: 100;
+        }
+        
+        .points-counter i {
+            color: var(--accent-color);
+            margin-right: 5px;
+        }
+        
+        /* Animation for completed tasks */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .completed {
+            animation: pulse 1.5s infinite;
+            border-color: var(--accent-color);
+        }
     </style>
 </head>
 <body>
+    <div class="points-counter">
+        <i class="fas fa-coins"></i>
+        <span id="pointsDisplay">0</span> TDX
+    </div>
+
     <div class="scroll-container">
-        <h2>Telegram Tasks</h2>
-        <p class="info-text">Complete Telegram tasks and earn TON DEX Points!</p>
+        <h2>TON DEX Tasks</h2>
+        <p class="info-text">Complete tasks and earn TON DEX Points (TDX)!</p>
         
-        <div class="task">
+        <div class="task" id="telegram_group">
             <span><i class="fab fa-telegram"></i> Join Official Group</span>
-            <button data-task="telegram_group" onclick="startTask(this)">Complete Task</button>
+            <button data-task="telegram_group" data-link="https://t.me/Tondex2025" onclick="startTask(this)">Complete Task</button>
         </div>
         
-        <div class="task">
+        <div class="task" id="telegram_channel">
             <span><i class="fab fa-telegram"></i> Subscribe to Channel</span>
-            <button data-task="telegram_channel" onclick="startTask(this)">Complete Task</button>
+            <button data-task="telegram_channel" data-link="https://t.me/Tondex2025" onclick="startTask(this)">Complete Task</button>
         </div>
         
-        <div class="task">
+        <div class="task" id="telegram_share">
             <span><i class="fab fa-telegram"></i> Share with Friends</span>
-            <button data-task="telegram_share" onclick="startTask(this)">Complete Task</button>
+            <button data-task="telegram_share" data-link="https://t.me/share/url?url=https://t.me/Tondex2025" onclick="startTask(this)">Complete Task</button>
         </div>
         
-        <div class="task">
+        <div class="task" id="telegram_contest">
             <span><i class="fab fa-telegram"></i> Participate in Contest</span>
-            <button data-task="telegram_contest" onclick="startTask(this)">Complete Task</button>
+            <button data-task="telegram_contest" data-link="https://t.me/Tondex2025" onclick="startTask(this)">Complete Task</button>
+        </div>
+        
+        <div class="social-section">
+            <h3>Join Our Community</h3>
+            <p>Connect with us on social media for updates and rewards</p>
+            
+            <div class="social-links">
+                <a href="https://t.me/Tondex2025" class="social-link telegram" target="_blank">
+                    <i class="fab fa-telegram"></i>
+                </a>
+                <a href="https://x.com/TonDex2025" class="social-link twitter" target="_blank">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="https://discord.gg/dvGhNDkC" class="social-link discord" target="_blank">
+                    <i class="fab fa-discord"></i>
+                </a>
+            </div>
         </div>
     </div>
 
@@ -194,42 +292,94 @@
     </div>
 
     <script>
+        // Initialize points display
         document.addEventListener("DOMContentLoaded", function () {
+            updatePointsDisplay();
+            
             document.querySelectorAll("button[data-task]").forEach(button => {
                 let task = button.getAttribute("data-task");
                 if (localStorage.getItem(task) === "completed") {
-                    button.innerText = "Claimed!";
-                    button.disabled = true;
+                    markTaskCompleted(task);
                 }
             });
         });
 
+        function updatePointsDisplay() {
+            let points = parseFloat(localStorage.getItem("points")) || 0;
+            document.getElementById("pointsDisplay").textContent = points;
+        }
+
         function startTask(button) {
             let task = button.getAttribute("data-task");
-            button.disabled = true;
-            button.innerText = "Verifying...";
+            let link = button.getAttribute("data-link");
             
+            // Disable the button immediately
+            button.disabled = true;
+            button.innerText = "Redirecting...";
+            
+            // Open the Telegram link in a new tab immediately
+            window.open(link, "_blank");
+            
+            // Change to "Claim" after 5 seconds
             setTimeout(() => {
                 button.innerText = "Claim Points";
                 button.disabled = false;
-                button.onclick = function () { claimPoints(this, task); };
+                button.onclick = function() { claimPoints(this, task); };
             }, 5000);
         }
 
         function claimPoints(button, task) {
             let points = parseFloat(localStorage.getItem("points")) || 0;
-            points += 5;
+            points += 5; // 5 points per task
             localStorage.setItem("points", points);
             localStorage.setItem(task, "completed");
+            
+            markTaskCompleted(task);
+            updatePointsDisplay();
+            
+            // Visual feedback
             button.innerText = "Claimed!";
             button.disabled = true;
+            button.style.background = "rgba(131, 197, 190, 0.3)";
             
-            // تأثير مرئي عند المطالبة بالنقاط
-            button.style.transform = "scale(1.1)";
+            // Create a floating +5 points animation
+            const pointsFloat = document.createElement("div");
+            pointsFloat.textContent = "+5 TDP";
+            pointsFloat.style.position = "absolute";
+            pointsFloat.style.color = "var(--accent-color)";
+            pointsFloat.style.fontWeight = "bold";
+            pointsFloat.style.animation = "floatUp 1s forwards";
+            pointsFloat.style.right = "20px";
+            pointsFloat.style.bottom = "20px";
+            document.body.appendChild(pointsFloat);
+            
             setTimeout(() => {
-                button.style.transform = "scale(1)";
-            }, 200);
+                pointsFloat.remove();
+            }, 1000);
         }
+
+        function markTaskCompleted(task) {
+            const taskElement = document.getElementById(task);
+            if (taskElement) {
+                taskElement.classList.add("completed");
+                const button = taskElement.querySelector("button");
+                if (button) {
+                    button.innerText = "Claimed!";
+                    button.disabled = true;
+                    button.style.background = "rgba(131, 197, 190, 0.3)";
+                }
+            }
+        }
+        
+        // CSS for floating animation
+        const style = document.createElement("style");
+        style.textContent = `
+            @keyframes floatUp {
+                0% { transform: translateY(0); opacity: 1; }
+                100% { transform: translateY(-50px); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>
